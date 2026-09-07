@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Chai aur tweet
+{% endblock title %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="fw-bold mb-1">Tweets</h1>
+        <p class="text-secondary mb-0">See what everyone is sharing.</p>
+    </div>
+
+    <!-- <a class="btn btn-primary" href="{% url 'tweet_create' %}">
+        + Create a tweet
+    </a> -->
+</div>
+
+
+<!-- Tweet Container -->
+<div class="tweet-container">
+
+    {% for tweet in tweets %}
+
+    <div class="card tweet-card">
+
+        <!-- Tweet Image -->
+         {% if tweet.photo %}
+           
+         
+        <img src="{{tweet.photo.url}}" class="tweet-image" alt="Tweet image">
+         
+         {% endif %}
+        <div class="card-body">
+
+            <!-- Username -->
+            <h5 class="card-title fw-bold">
+                @{{tweet.user.username}}
+            </h5>
+
+            <!-- Tweet Text -->
+            <p class="card-text tweet-text">
+                {{tweet.text}}
+            </p>
+
+            {% if tweet.user == user %}
+
+            <!-- Actions -->
+            <div class="tweet-actions">
+
+                <a href="{% url 'tweet_edit' tweet.id %}"
+                   class="btn btn-sm btn-outline-primary">
+                    Edit
+                </a>
+
+                <a href="{% url 'tweet_delete' tweet.id %}"
+                   class="btn btn-sm btn-outline-danger">
+                    Delete
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<!-- UI Styling -->
+<style>
+
+    /* Tweet feed */
+    .tweet-container {
+        max-width: 650px;
+        margin: 0 auto;
+    }
+
+
+    /* Tweet card */
+    .tweet-card {
+        background-color: #181c20;
+        border: 1px solid #343a40;
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 25px;
+
+        transition: 0.2s ease;
+    }
+
+
+    /* Hover effect */
+    .tweet-card:hover {
+        transform: translateY(-3px);
+        border-color: #495057;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+
+    /* Tweet image */
+    .tweet-image {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        display: block;
+    }
+
+
+    /* Tweet text */
+    .tweet-text {
+        color: #dee2e6;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-top: 12px;
+        margin-bottom: 18px;
+    }
+
+
+    /* Buttons */
+    .tweet-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+
+    /* Mobile */
+    @media (max-width: 576px) {
+
+        .tweet-container {
+            width: 100%;
+        }
+
+        .tweet-image {
+            height: 280px;
+        }
+
+        .tweet-card {
+            border-radius: 12px;
+        }
+
+    }
+
+</style>
+
+{% endblock content %}
